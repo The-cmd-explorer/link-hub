@@ -61,6 +61,56 @@
             font-size: 14px;
         }
 
+        .announcements {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .announcement {
+            padding: 15px 18px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.5;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .announcement.info {
+            background: #e3f2fd;
+            color: #1565c0;
+            border-left: 4px solid #1976d2;
+        }
+
+        .announcement.warning {
+            background: #fff3e0;
+            color: #e65100;
+            border-left: 4px solid #f57c00;
+        }
+
+        .announcement.success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-left: 4px solid #43a047;
+        }
+
+        .announcement.alert {
+            background: #ffebee;
+            color: #c62828;
+            border-left: 4px solid #e53935;
+        }
+
         .links {
             display: flex;
             flex-direction: column;
@@ -108,6 +158,8 @@
             <p class="bio">connect your DNS to 2a07:a8c0::37:17ed and 2a07:a8c1::37:17ed. If a link is broken or you have a request, please <a href="https://docs.google.com/forms/d/e/1FAIpQLSceQ4dj6qGzqDEwLsv_D1l3KPtyVAs89Y1lcxBbc3muFlwgIA/viewform" target="_blank" style="color: #667eea; text-decoration: none;">fill this out</a>.</p>
         </div>
 
+        <div class="announcements" id="announcements"></div>
+
         <div class="links">
             <a href="https://adhbauhbdansuhdwbeahgvsdjbwabvdskjdbhjwajbsbvdhaijsnduhbwi.pages.dev/more/blank" class="link-button">
                Link 1(Duck games)
@@ -136,5 +188,45 @@
             Room-32!!!
         </div>
     </div>
+
+    <script>
+        // ===== EDIT ANNOUNCEMENTS HERE =====
+        // Change 'show: true' to 'show: false' to hide an announcement
+        // Types: 'info' (blue), 'warning' (orange), 'success' (green), 'alert' (red)
+        
+        const announcements = [
+            {
+                show: true,
+                type: 'info',
+                text: 'Welcome To room 32.'
+            },
+            {
+                show: true,
+                type: 'warning',
+                text: 'Duck Math games is currently down. Please check out this link https://dns-edition-room-32-hub.pages.dev. Follow the instructions in  the google doc at the bottom to set it up.'
+            },
+            {
+                show: false,
+                type: 'success',
+                text: '✨ New games added! Check out Link 5 and Link 6.'
+            },
+            {
+                show: false,
+                type: 'alert',
+                text: '🔧 Maintenance scheduled for tonight at 10 PM EST.'
+            }
+        ];
+
+        // Display announcements
+        const announcementsContainer = document.getElementById('announcements');
+        announcements.forEach(announcement => {
+            if (announcement.show) {
+                const div = document.createElement('div');
+                div.className = `announcement ${announcement.type}`;
+                div.textContent = announcement.text;
+                announcementsContainer.appendChild(div);
+            }
+        });
+    </script>
 </body>
 </html>
