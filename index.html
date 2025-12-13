@@ -1,10 +1,52 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Room 32 is down</title>
-</head>
-<body>
-    <h1>room 32 is down</h1>
-</body>
-</html>
+<script>
+const BIN_ID = 'YOUR_BIN_ID_HERE'; // Paste your bin ID
+
+async function loadLinks() {
+    try {
+        const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`);
+        const data = await response.json();
+        
+        // Check if maintenance mode is enabled
+        if (data.record.maintenanceMode && data.record.maintenanceMode.main) {
+            const message = data.record.maintenanceMode.mainMessage || 
+                          "We're currently updating the site. Check back soon!";
+            
+            document.body.innerHTML = `
+                <div style="display: flex; justify-content: center; align-items: center; min-height: 100vh; text-align: center; padding: 20px;">
+                    <div style="max-width: 600px;">
+                        <div style="width: 100px; height: 100px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                                    border-radius: 50%; margin: 0 auto 30px; display: flex; align-items: center; 
+                                    justify-content: center; font-size: 40px; color: white; font-weight: bold;">32</div>
+                        <h1 style="font-size: 32px; margin-bottom: 20px; color: white;">Maintenance Mode</h1>
+                        <p style="font-size: 18px; color: rgba(255,255,255,0.9); line-height: 1.6;">${message}</p>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+        
+        const mainLinks = data.record.mainLinks.filter(link => link.enabled);
+        
+        const linksContainer = document.querySelector('.links');
+        linksContainer.innerHTML = '';
+        
+        mainLinks.forEach(link => {
+            const a = document.createElement('a');
+            a.href = link.url;
+            a.className = 'link-button';
+            a.textContent = link.text;
+            linksContainer.appendChild(a);
+        });
+        
+        const requestForm = document.createElement('a');
+        requestForm.href = 'https://forms.gle/jDCu8P2ZmUxauYqJ9';
+        requestForm.className = 'link-button';
+        requestForm.textContent = 'Request form!!!(broken or game requests)';
+        linksContainer.appendChild(requestForm);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+window.addEventListener('DOMContentLoaded', loadLinks);
+</script>
